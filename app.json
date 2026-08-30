@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "FutureMe",
+    "slug": "futureme",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "futureme",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#17143D"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "app.futureme.slice"
+    },
+    "android": {
+      "package": "app.futureme.slice",
+      "adaptiveIcon": {
+        "backgroundColor": "#17143D"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
