@@ -41,6 +41,19 @@ npm run start      # ardından i / a / w
 npm run web        # doğrudan web
 ```
 
+## Android deneme paketi
+
+Proje `@serkandnc/futureme` EAS projesine bağlıdır. Google Play veya Firebase
+anahtarı olmadan, cihazda doğrudan kurulabilen iç dağıtım APK'sı üretilebilir:
+
+```bash
+npx eas-cli@latest build --platform android --profile preview
+```
+
+`preview` profili `eas.json` içinde `distribution: internal` ve `buildType: apk`
+olarak tanımlıdır. Üretim mağaza imzası, Google ile giriş ve FCM bildirimleri bu
+deneme paketinden ayrıdır; ilgili kimlik bilgileri depoya commit edilmemelidir.
+
 ## Klasör yapısı
 
 ```
