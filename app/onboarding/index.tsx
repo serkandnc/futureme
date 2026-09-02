@@ -66,10 +66,10 @@ export default function OnboardingScreen() {
 
   const greeting = trimmedName ? `Merhaba ${trimmedName}.` : 'Merhaba.';
   const meetingMessage = trimmedStar
-    ? `${greeting} "${trimmedStar}" dedin. Bu yone, bugunden baslayarak attigin kucuk adimlarla ` +
-      'birlikte yaklasabiliriz. Acele yok; adim adim gideriz.'
-    : `${greeting} Buraya kadar geldin bile. Yarinki halinle bugunden bag kurmaya basliyoruz; ` +
-      'her gun uc kucuk adim, aramizdaki mesafeyi biraz daha kisaltabilir.';
+    ? `${greeting} “${trimmedStar}” dedin. Bu yöne, bugünden başlayarak attığın küçük adımlarla ` +
+      'birlikte yaklaşabiliriz. Acele yok; adım adım gideriz.'
+    : `${greeting} Buraya kadar geldin bile. Yarınki hâlinle bugünden bağ kurmaya başlıyoruz; ` +
+      'her gün üç küçük adım, aramızdaki mesafeyi biraz daha kısaltabilir.';
 
   const setConsent = (key: keyof Consents, value: boolean) =>
     setConsents((c) => ({ ...c, [key]: value }));
@@ -77,8 +77,10 @@ export default function OnboardingScreen() {
   const goNext = () => setStep((s) => Math.min(s + 1, LAST_STEP));
   const goBack = () => setStep((s) => Math.max(s - 1, STEP_WELCOME));
 
-  // Alan secilmeden 3. adimin otesine gecilemez (README 4.1.2 - hedef alani).
-  const nextDisabled = step === STEP_AREA && area === null;
+  // Alan ve Kuzey Yıldızı olmadan anlamlı bir günlük plan üretilemez.
+  const nextDisabled =
+    (step === STEP_AREA && area === null) ||
+    (step === STEP_NORTH_STAR && trimmedStar.length < 3);
 
   const onFinish = () => {
     if (!area) return; // guvenlik: alan olmadan bitirilemez
@@ -98,26 +100,26 @@ export default function OnboardingScreen() {
         return (
           <>
             <FutureSelfScene
-              message="Seni bekliyordum. Birlikte kisa bir yolculuga cikacagiz; sonunda tanisacagiz."
+              message="Seni bekliyordum. Birlikte kısa bir yolculuğa çıkacağız; sonunda tanışacağız."
             />
             <SectionHeader
-              kicker="HOS GELDIN"
-              title="FutureMe'ye hos geldin"
-              subtitle="Gelecekteki benliginle konusarak her gun uc kucuk kanit urettigin bir iyi olus ve motivasyon oyunu."
+              kicker="HOŞ GELDİN"
+              title="FutureMe'ye hoş geldin"
+              subtitle="Gelecekteki benliğinle konuşarak her gün üç küçük kanıt ürettiğin bir iyi oluş ve motivasyon oyunu."
             />
             <Card tone="muted" style={styles.block}>
-              <AppText variant="bodyStrong">Once kucuk bir not</AppText>
+              <AppText variant="bodyStrong">Önce küçük bir not</AppText>
               <AppText variant="body" color={colors.onSurfaceMuted}>
-                FutureMe bir terapi, tani, tibbi ya da acil durum hizmeti degildir. Zor bir an
-                yasiyorsan lutfen bir uzmana ya da yerel destek hatlarina basvurmayi dusun.
+                FutureMe bir terapi, tanı, tıbbi ya da acil durum hizmeti değildir. Zor bir an
+                yaşıyorsan lütfen bir uzmana ya da yerel destek hatlarına başvurmayı düşün.
               </AppText>
             </Card>
             <Card tone="muted" style={styles.block}>
-              <AppText variant="bodyStrong">Yapay zeka ve verin</AppText>
+              <AppText variant="bodyStrong">Yapay zekâ ve verin</AppText>
               <AppText variant="body" color={colors.onSurfaceMuted}>
-                Deneyim yapay zeka ile kisisellestirilir ve yapay uretilen icerikler acikca
-                etiketlenir. Verinin kontrolu sende: diledigin zaman disa aktarabilir ya da
-                silebilirsin. Model egitimi izni varsayilan olarak kapalidir.
+                Deneyim yapay zekâ ile kişiselleştirilir ve yapay üretilen içerikler açıkça
+                etiketlenir. Verinin kontrolü sende: dilediğin zaman dışa aktarabilir ya da
+                silebilirsin. Model eğitimi izni varsayılan olarak kapalıdır.
               </AppText>
             </Card>
           </>
@@ -127,16 +129,16 @@ export default function OnboardingScreen() {
         return (
           <>
             <SectionHeader
-              kicker="TANISMA"
-              title="Sana nasil sesleneyim?"
-              subtitle="Istersen adini birak; bos birakabilirsin, her zaman degistirebilirsin."
+              kicker="TANIŞMA"
+              title="Sana nasıl sesleneyim?"
+              subtitle="İstersen adını bırak; boş bırakabilirsin, her zaman değiştirebilirsin."
             />
             <TextField
-              label="Adin (istege bagli)"
+              label="Adın (isteğe bağlı)"
               value={displayName}
               onChangeText={setDisplayName}
-              placeholder="Ornek: Deniz"
-              helperText="Yalnizca seni sicak bir sekilde selamlayabilmem icin."
+              placeholder="Örnek: Deniz"
+              helperText="Yalnızca seni sıcak bir şekilde selamlayabilmem için."
             />
           </>
         );
@@ -145,9 +147,9 @@ export default function OnboardingScreen() {
         return (
           <>
             <SectionHeader
-              kicker="YON"
-              title="Su aralar seni en cok ne zorluyor?"
-              subtitle="Baslamak icin bir alan sec. Sonradan degistirebilirsin."
+              kicker="YÖN"
+              title="Şu aralar seni en çok ne zorluyor?"
+              subtitle="Başlamak için bir alan seç. Sonradan değiştirebilirsin."
             />
             <View style={styles.chipWrap}>
               {GOAL_AREAS.map((g) => (
@@ -162,7 +164,7 @@ export default function OnboardingScreen() {
             </View>
             {area === null ? (
               <AppText variant="caption" color={colors.onSurfaceMuted}>
-                Devam etmek icin bir alan secmen yeterli.
+                Devam etmek için bir alan seçmen yeterli.
               </AppText>
             ) : null}
           </>
@@ -173,27 +175,27 @@ export default function OnboardingScreen() {
           <>
             <SectionHeader
               kicker="KUZEY YILDIZI"
-              title="Kucuk bir yon belirleyelim"
-              subtitle="Kusursuz cevap aranmiyor; birkac kelime bile yeterli."
+              title="Küçük bir yön belirleyelim"
+              subtitle="Kusursuz cevap aranmıyor; birkaç kelime bile yeterli."
             />
             <TextField
               label={
                 meta?.northStarPrompt ??
-                'Alti ay sonra hangi davranislari daha dogal yapiyor olmak istersin?'
+                'Altı ay sonra hangi davranışları daha doğal yapıyor olmak istersin?'
               }
               value={northStar}
               onChangeText={setNorthStar}
-              placeholder="Kendi cumlenle yaz..."
+              placeholder="Kendi cümlenle yaz..."
               multiline
-              helperText="Kisa da olsa yeterli. Diledigin zaman degistirebilirsin."
+              helperText="En az birkaç karakter yaz. Dilediğin zaman değiştirebilirsin."
             />
             <TextField
-              label="Bu neden senin icin onemli?"
+              label="Bu neden senin için önemli?"
               value={whyItMatters}
               onChangeText={setWhyItMatters}
-              placeholder="Arkasindaki degeri birkac kelimeyle anlat..."
+              placeholder="Arkasındaki değeri birkaç kelimeyle anlat..."
               multiline
-              helperText="Bos birakabilirsin; ama bir 'neden' zor gunlerde yol gosterebilir."
+              helperText="Boş bırakabilirsin; ama bir 'neden' zor günlerde yol gösterebilir."
             />
           </>
         );
@@ -202,9 +204,9 @@ export default function OnboardingScreen() {
         return (
           <>
             <SectionHeader
-              kicker="MOTIVASYON HARITASI"
-              title="Sana simdilik daha yakin gorunen yaklasimlar"
-              subtitle="Bunlar bir tani ya da hukum degil; yalnizca birer olasilik. Zamanla gercek davranislarin bunlari gunceller."
+              kicker="MOTİVASYON HARİTASI"
+              title="Sana şimdilik daha yakın görünen yaklaşımlar"
+              subtitle="Bunlar bir tanı ya da hüküm değil; yalnızca birer olasılık. Zamanla gerçek davranışların bunları günceller."
             />
             {MOTIVATION_HINTS.slice(0, 3).map((h) => (
               <Card key={h.patternId} style={styles.hintCard}>
@@ -213,14 +215,14 @@ export default function OnboardingScreen() {
                     {h.label}
                   </AppText>
                   <AppText variant="caption" color={colors.primary}>
-                    ~%{Math.round(h.confidence * 100)} yakin
+                    ~%{Math.round(h.confidence * 100)} yakın
                   </AppText>
                 </View>
                 <AppText variant="caption" color={colors.onSurfaceMuted}>
-                  Ise yarayabilir: {h.approach}
+                  İşe yarayabilir: {h.approach}
                 </AppText>
                 <AppText variant="caption" color={colors.onSurfaceMuted}>
-                  Simdilik kacinilabilir: {h.avoid}
+                  Şimdilik kaçınılabilir: {h.avoid}
                 </AppText>
               </Card>
             ))}
@@ -232,8 +234,8 @@ export default function OnboardingScreen() {
           <>
             <SectionHeader
               kicker="OLASILIK ODASI"
-              title="Ihtimal, kader degil"
-              subtitle="Tek bir kesin sonuc yok. Iste ayni yone giden uc gercekci rota."
+              title="İhtimal, kader değil"
+              subtitle="Tek bir kesin sonuç yok. İşte aynı yöne giden üç gerçekçi rota."
             />
             {futures.map((f) => (
               <Card key={f.id} style={styles.futureCard}>
@@ -243,7 +245,7 @@ export default function OnboardingScreen() {
                 </AppText>
                 <View style={styles.futureMeta}>
                   <AppText variant="label" color={colors.primary}>
-                    SENIN ELINDE
+                    SENİN ELİNDE
                   </AppText>
                   {f.controllables.slice(0, 2).map((c) => (
                     <AppText key={c} variant="caption" color={colors.onSurface}>
@@ -253,7 +255,7 @@ export default function OnboardingScreen() {
                 </View>
                 <View style={styles.futureMeta}>
                   <AppText variant="label" color={colors.onSurfaceFaint}>
-                    BELIRSIZ
+                    BELİRSİZ
                   </AppText>
                   {f.uncertainties.slice(0, 2).map((u) => (
                     <AppText key={u} variant="caption" color={colors.onSurfaceMuted}>
@@ -270,38 +272,38 @@ export default function OnboardingScreen() {
         return (
           <>
             <SectionHeader
-              kicker="IZINLER"
-              title="Neyi paylasacagina sen karar ver"
-              subtitle="Her izin ayridir ve istedigin zaman Profil > Kontroller'den geri alabilirsin."
+              kicker="İZİNLER"
+              title="Neyi paylaşacağına sen karar ver"
+              subtitle="Her izin ayrıdır ve istediğin zaman Profil > Kontroller'den geri alabilirsin."
             />
             <Card style={styles.consentCard}>
               <ConsentRow
-                title="Fotograf"
-                description="Gelecekteki benlik avatarini kisisellestirmek icin fotografini kullanma izni."
+                title="Fotoğraf"
+                description="Gelecekteki benlik avatarını kişiselleştirmek için fotoğrafını kullanma izni."
                 value={consents.photo}
                 onValueChange={(v) => setConsent('photo', v)}
               />
               <ConsentRow
                 title="Ses"
-                description="Sesli 'Benimle Yuru' deneyimi ve gelecekteki benligin ses tonu icin."
+                description="Sesli 'Benimle Yürü' deneyimi ve gelecekteki benliğin ses tonu için."
                 value={consents.voice}
                 onValueChange={(v) => setConsent('voice', v)}
               />
               <ConsentRow
-                title="Yapay zeka"
-                description="Kisisellestirilmis mesaj ve hedef onerileri uretmek icin. Kapatirsan guvenli hazir icerik kullanilir."
+                title="Yapay zekâ"
+                description="Kişiselleştirilmiş mesaj ve hedef önerileri üretmek için. Kapatırsan güvenli hazır içerik kullanılır."
                 value={consents.ai}
                 onValueChange={(v) => setConsent('ai', v)}
               />
               <ConsentRow
-                title="Kullanim analizi"
-                description="Uygulamayi iyilestirmek icin anonim kullanim verisi."
+                title="Kullanım analizi"
+                description="Uygulamayı iyileştirmek için anonim kullanım verisi."
                 value={consents.analytics}
                 onValueChange={(v) => setConsent('analytics', v)}
               />
               <ConsentRow
-                title="Model egitimi"
-                description="Verinin yapay zeka modeli egitiminde kullanilmasi. Varsayilan olarak kapali."
+                title="Model eğitimi"
+                description="Verinin yapay zekâ modeli eğitiminde kullanılması. Varsayılan olarak kapalı."
                 value={consents.modelTraining}
                 onValueChange={(v) => setConsent('modelTraining', v)}
                 last
@@ -314,9 +316,9 @@ export default function OnboardingScreen() {
         return (
           <>
             <SectionHeader
-              kicker="ILK GORUSME"
-              title="Simdi tanisalim"
-              subtitle="Gelecekteki benin, senin kendi sozlerinden yola cikarak seni selamliyor."
+              kicker="İLK GÖRÜŞME"
+              title="Şimdi tanışalım"
+              subtitle="Gelecekteki benin, senin kendi sözlerinden yola çıkarak seni selamlıyor."
             />
             <FutureSelfScene name={trimmedName || undefined} message={meetingMessage} />
           </>
@@ -327,14 +329,14 @@ export default function OnboardingScreen() {
         return (
           <>
             <SectionHeader
-              kicker="ILK UC KOPRU"
-              title="Hazirsin"
-              subtitle="Simdi bugunun uc kucuk hedefini secip gelecekteki benligine gonderelim."
+              kicker="İLK ÜÇ KÖPRÜ"
+              title="Hazırsın"
+              subtitle="Şimdi bugünün üç küçük hedefini seçip gelecekteki benliğine gönderelim."
             />
             <Card tone="muted" style={styles.block}>
               <AppText variant="body" color={colors.onSurfaceMuted}>
-                Kusursuz olman gerekmiyor. Bir ana adim, bir destek adimi ve zor bir gun icin en
-                kucuk adim; bu kadari bugun icin fazlasiyla yeterli.
+                Kusursuz olman gerekmiyor. Bir ana adım, bir destek adımı ve zor bir gün için en
+                küçük adım; bu kadarı bugün için fazlasıyla yeterli.
               </AppText>
             </Card>
           </>
@@ -342,8 +344,36 @@ export default function OnboardingScreen() {
     }
   };
 
+  const navigation =
+    step < LAST_STEP ? (
+      <View style={styles.navRow}>
+        {step > STEP_WELCOME ? (
+          <Button label="Geri" variant="ghost" onPress={goBack} style={styles.navBtn} />
+        ) : null}
+        <Button
+          label="İleri"
+          onPress={goNext}
+          disabled={nextDisabled}
+          style={styles.navBtn}
+          accessibilityHint="Bir sonraki adıma geçer"
+        />
+      </View>
+    ) : (
+      <View style={styles.finishWrap}>
+        <Button
+          label="İlk üç hedefi seç"
+          size="lg"
+          fullWidth
+          disabled={!area}
+          onPress={onFinish}
+          accessibilityHint="Tanışmayı tamamlar ve sabah deneyimine geçer"
+        />
+        <Button label="Geri" variant="ghost" fullWidth onPress={goBack} />
+      </View>
+    );
+
   return (
-    <Screen scroll>
+    <Screen key={step} scroll footer={navigation}>
       {/* Ilerleme gostergesi */}
       <View style={styles.progressWrap}>
         <AppText variant="label" color={colors.onSurfaceFaint}>
@@ -361,33 +391,6 @@ export default function OnboardingScreen() {
 
       <View style={styles.step}>{renderStep()}</View>
 
-      {/* Gezinme */}
-      {step < LAST_STEP ? (
-        <View style={styles.navRow}>
-          {step > STEP_WELCOME ? (
-            <Button label="Geri" variant="ghost" onPress={goBack} style={styles.navBtn} />
-          ) : null}
-          <Button
-            label="Ileri"
-            onPress={goNext}
-            disabled={nextDisabled}
-            style={styles.navBtn}
-            accessibilityHint="Bir sonraki adima gecer"
-          />
-        </View>
-      ) : (
-        <View style={styles.finishWrap}>
-          <Button
-            label="Ilk uc hedefi sec"
-            size="lg"
-            fullWidth
-            disabled={!area}
-            onPress={onFinish}
-            accessibilityHint="Onboarding'i tamamlar ve sabah deneyimine gecer"
-          />
-          <Button label="Geri" variant="ghost" fullWidth onPress={goBack} />
-        </View>
-      )}
     </Screen>
   );
 }
@@ -458,7 +461,7 @@ const styles = StyleSheet.create({
   consentDivider: { borderBottomWidth: 1, borderBottomColor: colors.border },
   consentText: { flex: 1, gap: 2 },
 
-  navRow: { flexDirection: 'row', gap: spacing.md, marginTop: spacing.sm },
+  navRow: { flexDirection: 'row', gap: spacing.md },
   navBtn: { flex: 1 },
-  finishWrap: { gap: spacing.sm, marginTop: spacing.sm },
+  finishWrap: { gap: spacing.sm },
 });

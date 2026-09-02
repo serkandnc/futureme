@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 
 import { colors, radius, spacing, typography } from '../theme';
+import { useStore } from '../store/useStore';
 import { AppText } from './AppText';
 
 interface TextFieldProps {
@@ -12,6 +13,7 @@ interface TextFieldProps {
   multiline?: boolean;
   helperText?: string;
   autoFocus?: boolean;
+  accessibilityHint?: string;
 }
 
 /** Etiketli metin girisi (onboarding, gunluk, dusunce kaydi). */
@@ -23,7 +25,9 @@ export function TextField({
   multiline,
   helperText,
   autoFocus,
+  accessibilityHint,
 }: TextFieldProps) {
+  const highContrast = useStore((state) => state.profile.accessibility.highContrast);
   return (
     <View style={styles.wrap}>
       {label ? (
@@ -38,7 +42,10 @@ export function TextField({
         placeholderTextColor={colors.onSurfaceFaint}
         multiline={multiline}
         autoFocus={autoFocus}
-        style={[styles.input, multiline && styles.multiline]}
+        accessibilityLabel={label ?? placeholder ?? 'Metin alanı'}
+        accessibilityHint={accessibilityHint ?? helperText}
+        selectionColor={colors.primary}
+        style={[styles.input, highContrast && styles.highContrast, multiline && styles.multiline]}
       />
       {helperText ? (
         <AppText variant="caption" color={colors.onSurfaceMuted}>
@@ -64,4 +71,5 @@ const styles = StyleSheet.create({
     minHeight: 48,
   },
   multiline: { minHeight: 96, textAlignVertical: 'top', paddingTop: spacing.md },
+  highContrast: { borderColor: colors.onSurface, borderWidth: 2 },
 });

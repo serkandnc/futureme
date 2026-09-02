@@ -38,7 +38,7 @@ export function SafetyBanner({ title, message, resources, onAcknowledge }: Safet
         ))}
       </View>
       {onAcknowledge ? (
-        <Button label="Anladim, guvendeyim" variant="secondary" onPress={onAcknowledge} fullWidth />
+        <Button label="Anladım, güvendeyim" variant="secondary" onPress={onAcknowledge} fullWidth />
       ) : null}
     </View>
   );

@@ -85,7 +85,7 @@ function dateSeed(date: string): number {
 
 /** Kademe -> Turkce etiket (UI icin). */
 export const TIER_LABEL: Record<GoalTier, string> = {
-  mainBridge: 'Ana Kopru',
-  supportStep: 'Destek Adimi',
-  minimumEvidence: 'Minimum Kanit',
+  mainBridge: 'Ana Köprü',
+  supportStep: 'Destek Adımı',
+  minimumEvidence: 'Minimum Kanıt',
 };

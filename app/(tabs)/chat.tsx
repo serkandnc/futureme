@@ -27,11 +27,24 @@ export default function ChatScreen() {
     setDraft('');
   };
 
+  const composer = (
+    <View style={styles.inputRow}>
+      <View style={styles.inputField}>
+        <TextField
+          value={draft}
+          onChangeText={setDraft}
+          placeholder="Gelecekteki bene yaz..."
+        />
+      </View>
+      <Button label="Gönder" onPress={onSend} disabled={draft.trim().length === 0} />
+    </View>
+  );
+
   return (
-    <Screen scroll>
+    <Screen scroll footer={composer}>
       <AppText variant="caption" color={colors.onSurfaceMuted} style={styles.contract}>
-        Gelecekteki Ben kesinlik ya da kehanet diliyle konusmaz; "bu yolu surdurursen bu ihtimale
-        yaklasiyorsun" der. Kriz aninda oyunu birakip gercek destege yonlendirir.
+        Gelecekteki Ben kesinlik ya da kehanet diliyle konuşmaz; “bu yolu sürdürürsen bu ihtimale
+        yaklaşıyorsun” der. Kriz anında oyunu bırakıp gerçek desteğe yönlendirir.
       </AppText>
 
       {safety.suspended ? (
@@ -46,8 +59,8 @@ export default function ChatScreen() {
       {messages.length === 0 ? (
         <Card tone="muted">
           <AppText variant="body" color={colors.onSurfaceMuted}>
-            Henuz mesaj yok. Aklindan gecen bir seyi yaz; birlikte bugunun kucuk bir adimina
-            cevirelim.
+            Henüz mesaj yok. Aklından geçen bir şeyi yaz; birlikte bugünün küçük bir adımına
+            çevirelim.
           </AppText>
         </Card>
       ) : (
@@ -58,16 +71,6 @@ export default function ChatScreen() {
         </View>
       )}
 
-      <View style={styles.inputRow}>
-        <View style={styles.inputField}>
-          <TextField
-            value={draft}
-            onChangeText={setDraft}
-            placeholder="Gelecekteki bene yaz..."
-          />
-        </View>
-        <Button label="Gonder" onPress={onSend} disabled={draft.trim().length === 0} />
-      </View>
     </Screen>
   );
 }
@@ -110,7 +113,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     gap: spacing.sm,
-    marginTop: spacing.sm,
   },
   inputField: { flex: 1 },
 });

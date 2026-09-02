@@ -11,5 +11,6 @@ export { Screen } from './Screen';
 export { SectionHeader } from './SectionHeader';
 export { StepNode } from './StepNode';
 export type { StepState } from './StepNode';
+export { TabBarIcon } from './TabBarIcon';
 export { TextField } from './TextField';
 export { tapFeedback, successFeedback } from './haptics';

@@ -39,7 +39,7 @@ export function StepNode({ day, state, label, isLast }: StepNodeProps) {
           variant={state === 'today' ? 'bodyStrong' : 'body'}
           color={state === 'future' ? colors.onSurfaceFaint : colors.onSurface}
         >
-          {state === 'today' ? 'Bugun' : `Gun ${day}`}
+          {state === 'today' ? 'Bugün' : `Gün ${day}`}
         </AppText>
         {label ? (
           <AppText variant="caption" color={colors.onSurfaceMuted}>

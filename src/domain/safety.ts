@@ -109,15 +109,15 @@ export function safetyResponse(label: SafetyLabel): SafetyResponse | null {
     return {
       label,
       suspendGame: true,
-      title: 'Once senin guvenligin',
+      title: 'Önce senin güvenliğin',
       message:
-        'Yazdiklarindan zor bir an yasiyor olabilecegini anliyorum. Bu uygulama bir kriz ' +
-        'hizmeti degil ve bu anda sana bir oyun gibi yaklasmak dogru olmaz. Lutfen guvendigin ' +
-        'birine ulas veya asagidaki gercek destek kaynaklarindan yararlan. Yalniz degilsin.',
+        'Yazdıklarından zor bir an yaşıyor olabileceğini anlıyorum. Bu uygulama bir kriz ' +
+        'hizmeti değil ve bu anda sana bir oyun gibi yaklaşmak doğru olmaz. Lütfen güvendiğin ' +
+        'birine ulaş veya aşağıdaki gerçek destek kaynaklarından yararlan. Yalnız değilsin.',
       resources: [
-        { label: 'Acil durum (Turkiye)', value: '112' },
-        { label: 'Guvendigin bir kisi', value: 'Su anda yaninda olabilecek birini ara' },
-        { label: 'Ruh sagligi destegi', value: 'Yakinindaki bir saglik kurulusuna basvur' },
+        { label: 'Acil durum (Türkiye)', value: '112' },
+        { label: 'Güvendiğin bir kişi', value: 'Şu anda yanında olabilecek birini ara' },
+        { label: 'Ruh sağlığı desteği', value: 'Yakınındaki bir sağlık kuruluşuna başvur' },
       ],
     };
   }
@@ -127,9 +127,9 @@ export function safetyResponse(label: SafetyLabel): SafetyResponse | null {
       suspendGame: false,
       title: 'Bu konuda daha dikkatli ilerleyelim',
       message:
-        'Bedeninle ve yeme duzeninle ilgili hedeflerde saglikli ve nazik bir yaklasim onemli. ' +
-        'Burada kilo, olcu ya da kisitlama hedefi kurmuyoruz; kendine ozen gosterme davranislarina ' +
-        'odaklaniyoruz. Zorlaniyorsan bir saglik uzmaniyla konusmak iyi bir adim olabilir.',
+        'Bedeninle ve yeme düzeninle ilgili hedeflerde sağlıklı ve nazik bir yaklaşım önemli. ' +
+        'Burada kilo, ölçü ya da kısıtlama hedefi kurmuyoruz; kendine özen gösterme davranışlarına ' +
+        'odaklanıyoruz. Zorlanıyorsan bir sağlık uzmanıyla konuşmak iyi bir adım olabilir.',
       resources: [],
     };
   }

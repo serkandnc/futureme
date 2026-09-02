@@ -2,6 +2,7 @@ import React from 'react';
 import { ActivityIndicator, Pressable, StyleProp, StyleSheet, ViewStyle } from 'react-native';
 
 import { colors, palette, radius, spacing } from '../theme';
+import { useStore } from '../store/useStore';
 import { AppText } from './AppText';
 import { tapFeedback } from './haptics';
 
@@ -17,6 +18,7 @@ interface ButtonProps {
   fullWidth?: boolean;
   style?: StyleProp<ViewStyle>;
   accessibilityHint?: string;
+  accessibilityLabel?: string;
 }
 
 const BG: Record<ButtonVariant, string> = {
@@ -45,7 +47,11 @@ export function Button({
   fullWidth,
   style,
   accessibilityHint,
+  accessibilityLabel,
 }: ButtonProps) {
+  const highContrast = useStore((state) => state.profile.accessibility.highContrast);
+  const backgroundColor = highContrast && variant === 'primary' ? palette.night : BG[variant];
+  const foregroundColor = highContrast && variant === 'ghost' ? palette.night : FG[variant];
   const handlePress = () => {
     if (disabled || loading) return;
     void tapFeedback(variant === 'success' ? 'medium' : 'light');
@@ -57,12 +63,15 @@ export function Button({
       accessibilityRole="button"
       accessibilityState={{ disabled: !!disabled, busy: !!loading }}
       accessibilityHint={accessibilityHint}
+      accessibilityLabel={accessibilityLabel ?? label}
+      disabled={disabled || loading}
+      hitSlop={4}
       onPress={handlePress}
       style={({ pressed }) => [
         styles.base,
         size === 'lg' ? styles.lg : styles.md,
-        { backgroundColor: BG[variant] },
-        variant === 'ghost' && styles.ghost,
+        { backgroundColor },
+        variant === 'ghost' && [styles.ghost, highContrast && styles.ghostContrast],
         fullWidth && styles.fullWidth,
         (disabled || loading) && styles.disabled,
         pressed && !disabled && styles.pressed,
@@ -70,9 +79,9 @@ export function Button({
       ]}
     >
       {loading ? (
-        <ActivityIndicator color={FG[variant]} />
+        <ActivityIndicator color={foregroundColor} />
       ) : (
-        <AppText variant="bodyStrong" color={FG[variant]} center>
+        <AppText variant="bodyStrong" color={foregroundColor} center>
           {label}
         </AppText>
       )}
@@ -90,6 +99,7 @@ const styles = StyleSheet.create({
   md: { paddingVertical: spacing.md, paddingHorizontal: spacing.xl, minHeight: 48 },
   lg: { paddingVertical: spacing.lg, paddingHorizontal: spacing.xl, minHeight: 56 },
   ghost: { borderWidth: 1.5, borderColor: colors.primary },
+  ghostContrast: { borderColor: palette.night },
   fullWidth: { alignSelf: 'stretch' },
   disabled: { opacity: 0.45 },
   pressed: { opacity: 0.85, transform: [{ scale: 0.98 }] },

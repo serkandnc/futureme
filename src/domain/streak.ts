@@ -61,5 +61,5 @@ export function comebackMessage(streaks: Streaks, today: string): string | null 
   if (!last) return null;
   const gap = daysBetween(last, today);
   if (gap <= 1) return null;
-  return 'Yol silinmedi. Bugun tek bir kucuk basamakla yeniden baslayabilirsin.';
+  return 'Yol silinmedi. Bugün tek bir küçük basamakla yeniden başlayabilirsin.';
 }

@@ -29,7 +29,7 @@ export function GoalCard({ goal, onComplete, onShrink, disabled }: GoalCardProps
         </View>
         <View style={[styles.points, { backgroundColor: accent }]}>
           <AppText variant="caption" color={colors.surface}>
-            +{goal.stagePoints} ASAMA
+            +{goal.stagePoints} AŞAMA
           </AppText>
         </View>
       </View>
@@ -45,22 +45,22 @@ export function GoalCard({ goal, onComplete, onShrink, disabled }: GoalCardProps
       {goal.completed ? (
         <View style={styles.completedRow}>
           <AppText variant="bodyStrong" color={colors.success}>
-            ✓ Kanit gonderildi
+            ✓ Kanıt gönderildi
           </AppText>
         </View>
       ) : (
         <View style={styles.actions}>
           <Button
-            label="Tamamladim"
+            label="Tamamladım"
             variant="success"
             onPress={onComplete}
             disabled={disabled}
             fullWidth
-            accessibilityHint={`${goal.title} hedefini tamamlandi olarak isaretle`}
+            accessibilityHint={`${goal.title} hedefini tamamlandı olarak işaretle`}
           />
           {onShrink ? (
             <Button
-              label={`Kurtarma adimi: ${goal.minimumVersion}`}
+              label={`Kurtarma adımı: ${goal.minimumVersion}`}
               variant="ghost"
               size="md"
               onPress={onShrink}

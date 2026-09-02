@@ -66,8 +66,8 @@ export default function EveningScreen() {
 
       <SectionHeader
         kicker="AYNA"
-        title="Bugunun kanit kolaji"
-        subtitle="Bugun ne olduysa oldu; birlikte kanita ve engele bakalim."
+        title="Bugünün kanıt kolajı"
+        subtitle="Bugün ne olduysa oldu; birlikte kanıta ve engele bakalım."
       />
 
       {hasProof ? (
@@ -86,52 +86,52 @@ export default function EveningScreen() {
         <Card tone="muted" style={styles.kind}>
           <AppText variant="bodyStrong">
             {plan
-              ? 'Bugun tamamlanan bir kanit gorunmuyor ve bu utanilacak bir sey degil.'
-              : 'Bugun uc kopruyu henuz baslatmadin ve bu da bir bilgi.'}
+              ? 'Bugün tamamlanan bir kanıt görünmüyor ve bu utanılacak bir şey değil.'
+              : 'Bugün üç köprüyü henüz başlatmadın ve bu da bir bilgi.'}
           </AppText>
           <AppText variant="body" color={colors.onSurfaceMuted}>
-            Buraya geri donmen tek basina ilerlemenin bir parcasi. Engeli birlikte inceleyip yarina
-            daha kucuk bir deney tasarlayabiliriz.
+            Buraya geri dönmen tek başına ilerlemenin bir parçası. Engeli birlikte inceleyip yarına
+            daha küçük bir deney tasarlayabiliriz.
           </AppText>
         </Card>
       )}
 
       <SectionHeader
-        title="Uc kisa soru"
-        subtitle="Gunu yargisizca kapat; kisa cevaplar da yeterli."
+        title="Üç kısa soru"
+        subtitle="Günü yargısızca kapat; kısa cevaplar da yeterli."
       />
       <TextField
-        label="Ne yaptim?"
+        label="Ne yaptım?"
         value={didWhat}
         onChangeText={setDidWhat}
-        placeholder="Bugun atilan bir adim..."
+        placeholder="Bugün atılan bir adım..."
         multiline
       />
       <TextField
-        label="Ne ogrendim?"
+        label="Ne öğrendim?"
         value={learned}
         onChangeText={setLearned}
-        placeholder="Kucuk bir fark edis..."
+        placeholder="Küçük bir fark ediş..."
         multiline
       />
       <TextField
-        label="Yarin neyi kolaylastirmaliyim?"
+        label="Yarın neyi kolaylaştırmalıyım?"
         value={easierTomorrow}
         onChangeText={setEasierTomorrow}
-        placeholder="Yarini bir tik kolaylastiracak sey..."
+        placeholder="Yarını bir tık kolaylaştıracak şey..."
         multiline
       />
 
       <Button
-        label="Kaydet ve gunu kapat"
+        label="Kaydet ve günü kapat"
         onPress={onSave}
         size="lg"
         fullWidth
         style={styles.save}
-        accessibilityHint="Aksam yansimasini kaydeder ve yola geri doner"
+        accessibilityHint="Akşam yansımasını kaydeder ve yola geri döner"
       />
       <Button
-        label="Bir engel mi vardi? Dusunce Laboratuvari"
+        label="Bir engel mi vardı? Düşünce Laboratuvarı"
         variant="ghost"
         onPress={() => router.push('/thought-lab')}
         fullWidth

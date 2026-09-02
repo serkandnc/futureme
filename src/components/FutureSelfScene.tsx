@@ -8,6 +8,7 @@ interface FutureSelfSceneProps {
   message: string;
   name?: string;
   compact?: boolean;
+  generated?: boolean;
 }
 
 /**
@@ -15,7 +16,7 @@ interface FutureSelfSceneProps {
  * Dikey dilimde guvenli bir stilize avatar yeterlidir; uretilen her gorselde
  * "AI ile olusturuldu" bilgisi erisilebilir bicimde bulunur (README bolum 8).
  */
-export function FutureSelfScene({ message, name, compact }: FutureSelfSceneProps) {
+export function FutureSelfScene({ message, name, compact, generated = false }: FutureSelfSceneProps) {
   const initial = (name?.trim()?.[0] ?? '+').toLocaleUpperCase('tr-TR');
   return (
     <View style={[styles.scene, compact && styles.compact]}>
@@ -32,14 +33,14 @@ export function FutureSelfScene({ message, name, compact }: FutureSelfSceneProps
         </View>
         <View style={styles.aiTag}>
           <AppText variant="label" color={palette.white}>
-            AI ile olusturuldu
+            {generated ? 'Yapay zekâ ile oluşturuldu' : 'Stilize önizleme'}
           </AppText>
         </View>
       </View>
 
       {!compact && (
         <AppText variant="caption" color={palette.brandSoft} style={styles.kicker}>
-          GELECEKTEKI BEN
+          GELECEKTEKİ BEN
         </AppText>
       )}
       <AppText variant={compact ? 'body' : 'heading'} color={colors.onScene} style={styles.message}>

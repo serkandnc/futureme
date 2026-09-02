@@ -31,7 +31,12 @@ export function ProgressRing({
   const center = size / 2;
 
   return (
-    <View style={{ width: size, height: size }}>
+    <View
+      accessibilityRole="progressbar"
+      accessibilityLabel="Aşama ilerlemesi"
+      accessibilityValue={{ min: 0, max: target, now: Math.round(Math.max(0, value)) }}
+      style={{ width: size, height: size }}
+    >
       <Svg width={size} height={size}>
         <Circle
           cx={center}

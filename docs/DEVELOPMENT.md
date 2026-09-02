@@ -11,7 +11,7 @@ değil, çekirdek döngünün gerçekten çalıştığını göstermektir:
 
 ## Teknik yığın
 
-- **Expo (SDK 52) + React Native + TypeScript**
+- **Expo SDK 57 + React Native 0.86 + React 19 + TypeScript 6**
 - **Expo Router** — dosya tabanlı yönlendirme (`app/`)
 - **Zustand + AsyncStorage** — durum ve yerel kalıcılık
 - **react-native-svg** — 0–1000 ilerleme halkası
@@ -32,6 +32,9 @@ npm run test:domain
 
 # Tüm projeyi tip denetimi
 npm run typecheck
+
+# Expo bağımlılık ve yapılandırma kontrolü
+npx expo-doctor@latest
 
 # Uygulamayı başlat (cihaz/emülatör/web)
 npm run start      # ardından i / a / w
@@ -89,8 +92,11 @@ içinde saf, test edilebilir fonksiyonlardır (README bölüm 14 ve 17):
 | 180 günlük puan matematiği tutarlı | `journeyMath` (`economy.test.ts`) |
 | Kaçırılan gün kazanımı silmez | `streak.ts` + defter değişmezliği |
 | Kriz sinyalinde ödül/oyun dili devre dışı | `shouldSuspendGame` + store `completeGoal` guard |
+| Enerji seçilmeden plan gönderilemez | `commitPlan` store guard + sabit sabah CTA'sı |
+| Gönderilmemiş hedef puanlanamaz | `completeGoal` committed/sent guard |
 | Çevrimdışı tamamlama çift puan üretmez | `completionRefId` idempotency |
 | Bildirim/hafıza/foto/ses ayrı ayrı kapatılabilir | Profil ekranı + `consents`/`notifications` |
+| Yerel veriyi dışa aktarma | Profil ekranındaki sistem paylaşım menüsü üzerinden JSON |
 | Hesap silme | `resetAll` (üretimde türetilmiş medyayı da kapsayacak) |
 
 ## Bilinçli sınırlar (bu dilimde yok)

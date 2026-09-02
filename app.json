@@ -3,15 +3,13 @@
     "name": "FutureMe",
     "slug": "futureme",
     "version": "0.1.0",
+    "icon": "./assets/futureme-icon.png",
     "orientation": "portrait",
     "scheme": "futureme",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "splash": {
-      "resizeMode": "contain",
-      "backgroundColor": "#17143D"
-    },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "app.futureme.slice"
@@ -19,6 +17,7 @@
     "android": {
       "package": "app.futureme.slice",
       "adaptiveIcon": {
+        "foregroundImage": "./assets/futureme-icon.png",
         "backgroundColor": "#17143D"
       }
     },
@@ -26,7 +25,23 @@
       "bundler": "metro",
       "output": "single"
     },
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router",
+      "expo-status-bar",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#17143D",
+          "image": "./assets/futureme-icon.png",
+          "imageWidth": 180,
+          "resizeMode": "contain",
+          "dark": {
+            "backgroundColor": "#17143D",
+            "image": "./assets/futureme-icon.png"
+          }
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
     }

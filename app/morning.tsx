@@ -17,9 +17,9 @@ import type { EnergyLevel } from '@/types';
 import { today, useStore } from '@/store/useStore';
 
 const ENERGY: { level: EnergyLevel; label: string; emoji: string }[] = [
-  { level: 'low', label: 'Dusuk', emoji: '🌙' },
+  { level: 'low', label: 'Düşük', emoji: '🌙' },
   { level: 'medium', label: 'Orta', emoji: '🌤️' },
-  { level: 'high', label: 'Yuksek', emoji: '☀️' },
+  { level: 'high', label: 'Yüksek', emoji: '☀️' },
 ];
 
 /**
@@ -44,7 +44,7 @@ export default function MorningScreen() {
   if (!plan) {
     return (
       <Screen scroll>
-        <AppText variant="body">Hazirlaniyor...</AppText>
+        <AppText variant="body">Hazırlanıyor...</AppText>
       </Screen>
     );
   }
@@ -54,24 +54,45 @@ export default function MorningScreen() {
       <Screen scroll>
         <FutureSelfScene
           name={displayName}
-          message="Uc kaniti aldim. Gun icinde tek dokunusla tamamla; zorlanirsan kurtarma adimi hep burada."
+          message="Üç kanıtı aldım. Gün içinde tek dokunuşla tamamla; zorlanırsan kurtarma adımı hep burada."
         />
-        <Button label="Yola don" onPress={() => router.replace('/(tabs)/path')} fullWidth />
+        <Button label="Yola dön" onPress={() => router.replace('/(tabs)/path')} fullWidth />
       </Screen>
     );
   }
 
+  const footer = (
+    <View style={styles.footer}>
+      <Button
+        label="Üç hedefi gelecekteki benliğime gönder"
+        onPress={() => {
+          commitPlan(date);
+          router.replace('/(tabs)/path');
+        }}
+        size="lg"
+        fullWidth
+        disabled={!plan.energy}
+        accessibilityHint="Günlük sözleşmeyi başlatır ve +1 AŞAMA kazandırır"
+      />
+      <AppText variant="caption" color={colors.onSurfaceMuted} center>
+        {plan.energy
+          ? 'Göndermek günlük sözleşmeni başlatır ve sana +1 AŞAMA, +10 XP kazandırır.'
+          : 'Devam etmek için önce bugünkü enerji düzeyini seç.'}
+      </AppText>
+    </View>
+  );
+
   return (
-    <Screen scroll>
+    <Screen scroll footer={footer}>
       <FutureSelfScene
         name={displayName}
-        message="Gunaydin. Bugun kusursuz olman gerekmiyor. Bana uc kanit gonder: bir ana adim, bir destek adimi ve zor bir gun icin en kucuk adim."
+        message="Günaydın. Bugün kusursuz olman gerekmiyor. Bana üç kanıt gönder: bir ana adım, bir destek adımı ve zor bir gün için en küçük adım."
       />
 
       <SectionHeader
-        kicker="ENERJI"
-        title="Bugun bana nasil yaklasiyoruz?"
-        subtitle="Enerjine gore hedefleri birlikte olcekleyelim."
+        kicker="ENERJİ"
+        title="Bugün bana nasıl yaklaşıyoruz?"
+        subtitle="Enerjine göre hedefleri birlikte ölçekleyelim."
       />
       <View style={styles.energyRow}>
         {ENERGY.map((e) => (
@@ -85,7 +106,7 @@ export default function MorningScreen() {
         ))}
       </View>
 
-      <SectionHeader title="Bugunun uc koprusu" subtitle="Degistir, kucult veya oldugu gibi kabul et." />
+      <SectionHeader title="Bugünün üç köprüsü" subtitle="Küçült veya olduğu gibi kabul et." />
       {plan.goals.map((g) => (
         <Card key={g.id} style={styles.goal}>
           <View style={styles.goalHeader}>
@@ -100,7 +121,7 @@ export default function MorningScreen() {
             {g.durationMinutes ? `  ·  ${g.durationMinutes} dk` : ''}
           </AppText>
           <Button
-            label={`Kucult: ${g.minimumVersion}`}
+            label={`Küçült: ${g.minimumVersion}`}
             variant="ghost"
             onPress={() => shrinkGoal(date, g.id)}
             fullWidth
@@ -109,20 +130,6 @@ export default function MorningScreen() {
         </Card>
       ))}
 
-      <Button
-        label="Uc hedefi gelecekteki benligime gonder"
-        onPress={() => {
-          commitPlan(date);
-          router.replace('/(tabs)/path');
-        }}
-        size="lg"
-        fullWidth
-        style={styles.send}
-        accessibilityHint="Gunluk sozlesmeyi baslatir ve +1 ASAMA kazandirir"
-      />
-      <AppText variant="caption" color={colors.onSurfaceMuted} center>
-        Gondermek gunluk sozlesmeni baslatir ve sana +1 ASAMA, +10 XP kazandirir.
-      </AppText>
     </Screen>
   );
 }
@@ -133,5 +140,5 @@ const styles = StyleSheet.create({
   goalHeader: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   dot: { width: 10, height: 10, borderRadius: 5 },
   shrink: { marginTop: spacing.sm },
-  send: { marginTop: spacing.md },
+  footer: { gap: spacing.sm },
 });

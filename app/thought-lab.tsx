@@ -58,34 +58,34 @@ export default function ThoughtLabScreen() {
   return (
     <Screen scroll>
       <SectionHeader
-        title="Dusunce Laboratuvari"
-        subtitle="Takildigin bir ani al, uzerinde biraz dusun ve onu kucucuk bir denemeye cevir. Amac kendini yargilamak degil, ne oldugunu merakla gormek."
+        title="Düşünce Laboratuvarı"
+        subtitle="Takıldığın bir anı al, üzerinde biraz düşün ve onu küçücük bir denemeye çevir. Amaç kendini yargılamak değil, ne olduğunu merakla görmek."
       />
 
       {/* Istege bagli yontem notu - varsayilan olarak kapali. */}
       <Card tone="muted" onPress={() => setShowMethod((v) => !v)}>
         <View style={styles.methodHeader}>
           <AppText variant="bodyStrong" color={colors.primary} style={styles.methodTitle}>
-            Bunun arkasindaki yontem neydi?
+            Bunun arkasındaki yöntem neydi?
           </AppText>
           <AppText variant="caption" color={colors.primary}>
-            {showMethod ? 'Gizle' : 'Goster'}
+            {showMethod ? 'Gizle' : 'Göster'}
           </AppText>
         </View>
         {showMethod ? (
           <View style={styles.method}>
             <AppText variant="body" color={colors.onSurfaceMuted}>
-              Bu kucuk akis, zorlandigin bir ani parcalara ayirmana yarar: once ne
-              oldugunu (Durum), o an zihninden gecen ilk cumleyi (Otomatik dusunce) ve
-              bunun sana ne hissettirip ne yaptirdigini (Duygu/Davranis) yaziyorsun.
-              Sonra ayni duruma daha adil bakan bir cumle (Dengeli dusunce) ve onu
-              sinayacak kucucuk bir adim (Kucuk deney) buluyorsun. En sonda da ne fark
-              ettigini (Ogrenme) not ediyorsun.
+              Bu küçük akış, zorlandığın bir anı parçalara ayırmana yarar: önce ne
+              olduğunu (Durum), o an zihninden geçen ilk cümleyi (Otomatik düşünce) ve
+              bunun sana ne hissettirip ne yaptırdığını (Duygu/Davranış) yazıyorsun.
+              Sonra aynı duruma daha adil bakan bir cümle (Dengeli düşünce) ve onu
+              sınayacak küçücük bir adım (Küçük deney) buluyorsun. En sonda da ne fark
+              ettiğini (Öğrenme) not ediyorsun.
             </AppText>
             <AppText variant="body" color={colors.onSurfaceMuted}>
-              Fikir su: dusuncelerimizi kesin bir gercek gibi degil, sinanabilir tahminler
-              gibi ele almak. Kucuk bir deney cogu zaman, korktugumuz seyin sandigimizdan
-              daha kucuk oldugunu gosterir.
+              Fikir şu: düşüncelerimizi kesin bir gerçek gibi değil, sınanabilir tahminler
+              gibi ele almak. Küçük bir deney çoğu zaman, korktuğumuz şeyin sandığımızdan
+              daha küçük olduğunu gösterir.
             </AppText>
           </View>
         ) : null}
@@ -101,19 +101,19 @@ export default function ThoughtLabScreen() {
           helperText="Ne oldu? Nerede, ne zaman, kimlerle?"
         />
         <TextField
-          label="Otomatik dusunce"
+          label="Otomatik düşünce"
           value={automaticThought}
           onChangeText={setAutomaticThought}
           placeholder={THOUGHT_LAB_EXAMPLE.automaticThought}
           multiline
-          helperText="O anda zihninden gecen ilk cumle."
+          helperText="O anda zihninden geçen ilk cümle."
         />
 
         <View style={styles.field}>
-          <AppText variant="bodyStrong">Oruntu</AppText>
+          <AppText variant="bodyStrong">Örüntü</AppText>
           <AppText variant="caption" color={colors.onSurfaceMuted}>
-            Dusuncenin tanidik bir tuzaga benzeyip benzemedigine bak. Istersen bir tane
-            sec, istersen bos birak.
+            Düşüncenin tanıdık bir tuzağa benzeyip benzemediğine bak. İstersen bir tane
+            seç, istersen boş bırak.
           </AppText>
           <View style={styles.chips}>
             {COGNITIVE_DISTORTIONS.map((d) => (
@@ -126,7 +126,7 @@ export default function ThoughtLabScreen() {
             ))}
           </View>
           <AppText variant="caption" color={colors.onSurfaceFaint}>
-            Ornek: {THOUGHT_LAB_EXAMPLE.distortion}
+            Örnek: {THOUGHT_LAB_EXAMPLE.distortion}
           </AppText>
         </View>
 
@@ -138,34 +138,34 @@ export default function ThoughtLabScreen() {
           helperText="Ne hissettin? Bedeninde nerede duydun?"
         />
         <TextField
-          label="Davranis"
+          label="Davranış"
           value={behavior}
           onChangeText={setBehavior}
           placeholder={THOUGHT_LAB_EXAMPLE.behavior}
-          helperText="O an ne yaptin ya da neyden kacindin?"
+          helperText="O an ne yaptın ya da neyden kaçındın?"
         />
         <TextField
-          label="Dengeli dusunce"
+          label="Dengeli düşünce"
           value={balancedThought}
           onChangeText={setBalancedThought}
           placeholder={THOUGHT_LAB_EXAMPLE.balancedThought}
           multiline
-          helperText="Ayni duruma daha adil ve gercekci bakan bir cumle."
+          helperText="Aynı duruma daha adil ve gerçekçi bakan bir cümle."
         />
         <TextField
-          label="Kucuk davranis deneyi"
+          label="Küçük davranış deneyi"
           value={experiment}
           onChangeText={setExperiment}
           placeholder={THOUGHT_LAB_EXAMPLE.experiment}
-          helperText="Bugun deneyebilecegin, gozunu korkutmayacak kadar kucuk bir adim."
+          helperText="Bugün deneyebileceğin, gözünü korkutmayacak kadar küçük bir adım."
         />
         <TextField
-          label="Ogrenme"
+          label="Öğrenme"
           value={learning}
           onChangeText={setLearning}
           placeholder={THOUGHT_LAB_EXAMPLE.learning}
           multiline
-          helperText="Istege bagli. Deneyi yaptiktan sonra doldur: ne fark ettin?"
+          helperText="İsteğe bağlı. Deneyi yaptıktan sonra doldur: ne fark ettin?"
         />
       </View>
 
@@ -174,21 +174,21 @@ export default function ThoughtLabScreen() {
         onPress={handleSave}
         disabled={!canSave}
         fullWidth
-        accessibilityHint="Dusunce kaydini saklar ve laboratuvari kapatir"
+        accessibilityHint="Düşünce kaydını saklar ve laboratuvarı kapatır"
       />
       {!canSave ? (
         <AppText variant="caption" color={colors.onSurfaceMuted} center>
-          Baslamak icin en azindan durumu ve o anki dusunceni yaz.
+          Başlamak için en azından durumu ve o anki düşünceni yaz.
         </AppText>
       ) : null}
-      <Button label="Vazgec" variant="ghost" onPress={() => router.back()} fullWidth />
+      <Button label="Vazgeç" variant="ghost" onPress={() => router.back()} fullWidth />
 
       {/* Gecmis kayitlar - en yeni ustte (store zaten basa ekliyor). */}
-      <SectionHeader title="Gecmis kayitlar" subtitle="Daha once uzerinde calistigin anlar." />
+      <SectionHeader title="Geçmiş kayıtlar" subtitle="Daha önce üzerinde çalıştığın anlar." />
       {thoughtRecords.length === 0 ? (
         <Card tone="muted">
           <AppText variant="body" color={colors.onSurfaceMuted}>
-            Henuz kayit yok. Ilk takildigin ani yukarida kucuk bir denemeye cevirebilirsin.
+            Henüz kayıt yok. İlk takıldığın anı yukarıda küçük bir denemeye çevirebilirsin.
           </AppText>
         </Card>
       ) : (
@@ -197,7 +197,7 @@ export default function ThoughtLabScreen() {
             <AppText variant="bodyStrong">{r.situation}</AppText>
             {r.balancedThought.trim().length > 0 ? (
               <AppText variant="body" color={colors.onSurfaceMuted}>
-                Dengeli dusunce: {r.balancedThought}
+                Dengeli düşünce: {r.balancedThought}
               </AppText>
             ) : null}
           </Card>

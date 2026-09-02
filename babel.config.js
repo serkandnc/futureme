@@ -3,8 +3,8 @@ module.exports = function (api) {
   return {
     presets: ['babel-preset-expo'],
     plugins: [
-      // Reanimated plugin en sonda olmalidir.
-      'react-native-reanimated/plugin',
+      // Worklets eklentisi Reanimated 4'te en sonda olmalıdır.
+      'react-native-worklets/plugin',
     ],
   };
 };

@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { StyleSheet, Switch, View } from 'react-native';
+import { Share, StyleSheet, Switch, View } from 'react-native';
 
 import { AppText, Button, Card, Screen, SectionHeader } from '@/components';
 import { colors, palette, spacing } from '@/theme';
@@ -21,45 +21,45 @@ type AccessRow = { key: keyof AccessibilityPrefs; label: string; description: st
 const CONSENT_ROWS: ConsentRow[] = [
   {
     key: 'photo',
-    label: 'Fotograf',
-    description: 'Gelecekteki benlik sahnesi ve avatar icin fotografini kullan.',
+    label: 'Fotoğraf',
+    description: 'Gelecekteki benlik sahnesi ve avatar için fotoğrafını kullan.',
   },
   {
     key: 'voice',
     label: 'Ses',
-    description: 'Sesli yol arkadasligi ve gelecek-ben sesi icin ses kaydini kullan.',
+    description: 'Sesli yol arkadaşlığı ve gelecek-ben sesi için ses kaydını kullan.',
   },
   {
     key: 'ai',
-    label: 'Yapay zeka',
-    description: 'Plan, sohbet ve koclugu kisisellestirmek icin yapay zekayi kullan.',
+    label: 'Yapay zekâ',
+    description: 'Plan, sohbet ve koçluğu kişiselleştirmek için yapay zekâyı kullan.',
   },
   {
     key: 'analytics',
-    label: 'Kullanim analitigi',
-    description: 'Uygulamayi iyilestirmek icin anonim kullanim olcumlerini paylas.',
+    label: 'Kullanım analitiği',
+    description: 'Uygulamayı iyileştirmek için anonim kullanım ölçümlerini paylaş.',
   },
   {
     key: 'modelTraining',
-    label: 'Model egitimi',
-    description: 'Verilerini modelleri gelistirmek icin kullanmamiza izin ver.',
+    label: 'Model eğitimi',
+    description: 'Verilerini modelleri geliştirmek için kullanmamıza izin ver.',
     note:
-      'Varsayilan olarak KAPALI. Bu izin diger izinlerden ayridir ve istedigin an geri alabilirsin (README bolum 17).',
+      'Varsayılan olarak KAPALI. Bu izin diğer izinlerden ayrıdır ve istediğin an geri alabilirsin.',
   },
 ];
 
 const NOTIF_ROWS: NotifRow[] = [
-  { key: 'morning', label: 'Sabah', description: 'Gelecek sahnesine ve bugunun uc kanitina davet.' },
+  { key: 'morning', label: 'Sabah', description: 'Gelecek sahnesine ve bugünün üç kanıtına davet.' },
   {
     key: 'planned',
     label: 'Planlanan an',
-    description: 'Kendi uygulama niyetin icin nazik bir hatirlatma.',
+    description: 'Kendi uygulama niyetin için nazik bir hatırlatma.',
   },
-  { key: 'evening', label: 'Aksam', description: 'Yargisiz gunluk kapanis daveti.' },
+  { key: 'evening', label: 'Akşam', description: 'Yargısız günlük kapanış daveti.' },
   {
     key: 'comeback',
-    label: 'Geri donus',
-    description: 'Ara verdiginde bagi yeniden kurmak icin tek kucuk basamak.',
+    label: 'Geri dönüş',
+    description: 'Ara verdiğinde bağı yeniden kurmak için tek küçük basamak.',
   },
 ];
 
@@ -67,13 +67,13 @@ const ACCESS_ROWS: AccessRow[] = [
   {
     key: 'reduceMotion',
     label: 'Hareketi azalt',
-    description: 'Kutlama ve gecis animasyonlarini sakin tutar.',
+    description: 'Kutlama ve geçiş animasyonlarını sakin tutar.',
   },
-  { key: 'muteSound', label: 'Sesi kapat', description: 'Uygulama ici ses ve efektleri susturur.' },
+  { key: 'muteSound', label: 'Sesi kapat', description: 'Uygulama içi ses ve efektleri susturur.' },
   {
     key: 'highContrast',
-    label: 'Yuksek kontrast',
-    description: 'Metin ve ogeler arasindaki kontrasti artirir.',
+    label: 'Yüksek kontrast',
+    description: 'Metin ve öğeler arasındaki kontrastı artırır.',
   },
 ];
 
@@ -87,12 +87,43 @@ export default function ProfileScreen() {
   const setAccessibilityPref = useStore((s) => s.setAccessibilityPref);
   const resetAll = useStore((s) => s.resetAll);
 
-  const [exportRequested, setExportRequested] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const [exportStatus, setExportStatus] = useState<string | null>(null);
   const [confirmReset, setConfirmReset] = useState(false);
 
   const handleReset = () => {
     resetAll();
     router.replace('/onboarding');
+  };
+
+  const handleExport = async () => {
+    setExporting(true);
+    setExportStatus(null);
+    const state = useStore.getState();
+    const payload = {
+      exportedAt: new Date().toISOString(),
+      schemaVersion: 1,
+      profile: state.profile,
+      journey: state.journey,
+      plansByDate: state.plansByDate,
+      ledger: state.ledger,
+      streaks: state.streaks,
+      evidence: state.evidence,
+      thoughtRecords: state.thoughtRecords,
+      messages: state.messages,
+    };
+
+    try {
+      await Share.share({
+        title: 'FutureMe veri dışa aktarımı',
+        message: `FutureMe veri dışa aktarımı (JSON)\n\n${JSON.stringify(payload, null, 2)}`,
+      });
+      setExportStatus('Verilerin paylaşım menüsüne hazırlandı.');
+    } catch {
+      setExportStatus('Dışa aktarma açılamadı. Lütfen tekrar dene.');
+    } finally {
+      setExporting(false);
+    }
   };
 
   return (
@@ -101,16 +132,16 @@ export default function ProfileScreen() {
         title="Profil ve Kontroller"
         subtitle={
           profile.displayName
-            ? `${profile.displayName}, izinler ve tercihler senin kontrolunde.`
-            : 'Izinler, bildirimler ve erisilebilirlik senin kontrolunde.'
+            ? `${profile.displayName}, izinler ve tercihler senin kontrolünde.`
+            : 'İzinler, bildirimler ve erişilebilirlik senin kontrolünde.'
         }
       />
 
       {/* Izinler - her izin ayri ayri ve geri alinabilir (README bolum 4.1, 17) */}
       <Card>
         <CardHeading
-          title="Izinler"
-          description="Her izni ayri ayri acip kapatabilirsin; hicbiri digerini gerektirmez."
+          title="İzinler"
+          description="Her izni ayrı ayrı açıp kapatabilirsin; hiçbiri diğerini gerektirmez."
         />
         {CONSENT_ROWS.map((row, i) => (
           <ToggleRow
@@ -129,7 +160,7 @@ export default function ProfileScreen() {
       <Card>
         <CardHeading
           title="Bildirimler"
-          description="Ton, siklik ve sessiz saatler senin secimin. Sistem gormezden gelinen bildirimleri artirmaz."
+          description="Ton, sıklık ve sessiz saatler senin seçimin. Sistem görmezden gelinen bildirimleri artırmaz."
         />
         {NOTIF_ROWS.map((row, i) => (
           <ToggleRow
@@ -145,7 +176,7 @@ export default function ProfileScreen() {
           <AppText variant="bodyStrong">Sessiz saatler</AppText>
           <AppText variant="body" color={colors.onSurfaceMuted}>
             {profile.notifications.quietHoursStart} – {profile.notifications.quietHoursEnd} arasinda
-            bildirim gonderilmez.
+            bildirim gönderilmez.
           </AppText>
         </View>
       </Card>
@@ -153,8 +184,8 @@ export default function ProfileScreen() {
       {/* Erisilebilirlik (README bolum 12) */}
       <Card>
         <CardHeading
-          title="Erisilebilirlik"
-          description="Hareket azaltma, ses kapatma ve yuksek kontrast ilk surum kapsamindadir."
+          title="Erişilebilirlik"
+          description="Hareket azaltma, ses kapatma ve yüksek kontrast ilk sürüm kapsamındadır."
         />
         {ACCESS_ROWS.map((row, i) => (
           <ToggleRow
@@ -172,19 +203,19 @@ export default function ProfileScreen() {
       <Card>
         <CardHeading
           title="Veri kontrolleri"
-          description="Verilerin senindir. Diledigin an disa aktarabilir ya da tamamen silebilirsin."
+          description="Verilerin senindir. Dilediğin an dışa aktarabilir ya da tamamen silebilirsin."
         />
         <View style={styles.dataBlock}>
           <Button
-            label="Verilerimi disa aktar"
+            label="Verilerimi dışa aktar"
             variant="secondary"
             fullWidth
-            onPress={() => setExportRequested(true)}
+            loading={exporting}
+            onPress={() => void handleExport()}
           />
-          {exportRequested ? (
+          {exportStatus ? (
             <AppText variant="caption" color={colors.onSurfaceMuted}>
-              Disa aktarma hazirlaniyor. Uretim surumunde verilerin sifreli bir dosya olarak
-              hazirlanip sana guvenli bir baglantiyla iletilir.
+              {exportStatus}
             </AppText>
           ) : null}
         </View>
@@ -196,12 +227,11 @@ export default function ProfileScreen() {
                 Emin misin?
               </AppText>
               <AppText variant="caption" color={colors.onSurfaceMuted}>
-                Yolculugun, hedeflerin, kanitlarin ve tum tercihlerin kalici olarak silinir. Uretim
-                surumunde silme; turetilmis medya ve yedekler icin de yurutulur (README bolum 17).
+                Yolculuğun, hedeflerin, kanıtların ve tüm tercihlerin kalıcı olarak silinir.
               </AppText>
-              <Button label="Evet, hesabimi sil" variant="danger" fullWidth onPress={handleReset} />
+              <Button label="Evet, hesabımı sil" variant="danger" fullWidth onPress={handleReset} />
               <Button
-                label="Vazgec"
+                label="Vazgeç"
                 variant="ghost"
                 fullWidth
                 onPress={() => setConfirmReset(false)}
@@ -209,7 +239,7 @@ export default function ProfileScreen() {
             </View>
           ) : (
             <Button
-              label="Hesabimi sifirla / sil"
+              label="Hesabımı sıfırla / sil"
               variant="danger"
               fullWidth
               onPress={() => setConfirmReset(true)}
@@ -220,13 +250,13 @@ export default function ProfileScreen() {
 
       {/* Klinik sinir notu (README bolum 17) */}
       <Card tone="muted">
-        <CardHeading title="Klinik sinir" />
+        <CardHeading title="Klinik sınır" />
         <AppText variant="body">
           FutureMe bir terapi, tanı veya acil yardım uygulaması değildir.
         </AppText>
         <AppText variant="body" color={colors.onSurfaceMuted}>
-          Kriz aninda uygulama seni gercek ve yerel yardim kaynaklarina yonlendirir; profesyonel
-          bakimin yerine gecmez.
+          Kriz anında uygulama seni gerçek ve yerel yardım kaynaklarına yönlendirir; profesyonel
+          bakımın yerine geçmez.
         </AppText>
       </Card>
     </Screen>

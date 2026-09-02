@@ -16,9 +16,9 @@ interface RewardOverlayProps {
 }
 
 const TIER_META: Record<GoalTier, { emoji: string; title: string; color: string }> = {
-  minimumEvidence: { emoji: '🌱', title: 'Kucuk kanit, buyuk fark', color: colors.success },
-  supportStep: { emoji: '✨', title: 'Destek adimi tamam', color: palette.sunrise },
-  mainBridge: { emoji: '🎉', title: 'Ana kopruyu gectin', color: palette.coral },
+  minimumEvidence: { emoji: '🌱', title: 'Küçük kanıt, büyük fark', color: colors.success },
+  supportStep: { emoji: '✨', title: 'Destek adımı tamam', color: palette.sunrise },
+  mainBridge: { emoji: '🎉', title: 'Ana köprüyü geçtin', color: palette.coral },
 };
 
 /**

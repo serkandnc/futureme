@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Text } from 'react-native';
 
+import { TabBarIcon } from '@/components';
 import { colors } from '@/theme';
 
 /** Alt navigasyon: Yol, Konus, Kanitlar, Profil (README bolum 12). */
@@ -24,24 +24,20 @@ export default function TabsLayout() {
     >
       <Tabs.Screen
         name="path"
-        options={{ title: 'Yol', tabBarIcon: ({ color }) => <TabIcon icon="🛤️" color={color} /> }}
+        options={{ title: 'Yol', tabBarIcon: ({ color }) => <TabBarIcon name="path" color={color} /> }}
       />
       <Tabs.Screen
         name="chat"
-        options={{ title: 'Konus', tabBarIcon: ({ color }) => <TabIcon icon="💬" color={color} /> }}
+        options={{ title: 'Konuş', tabBarIcon: ({ color }) => <TabBarIcon name="chat" color={color} /> }}
       />
       <Tabs.Screen
         name="evidence"
-        options={{ title: 'Kanitlar', tabBarIcon: ({ color }) => <TabIcon icon="📦" color={color} /> }}
+        options={{ title: 'Kanıtlar', tabBarIcon: ({ color }) => <TabBarIcon name="evidence" color={color} /> }}
       />
       <Tabs.Screen
         name="profile"
-        options={{ title: 'Profil', tabBarIcon: ({ color }) => <TabIcon icon="👤" color={color} /> }}
+        options={{ title: 'Profil', tabBarIcon: ({ color }) => <TabBarIcon name="profile" color={color} /> }}
       />
     </Tabs>
   );
-}
-
-function TabIcon({ icon, color }: { icon: string; color: string }) {
-  return <Text style={{ fontSize: 20, color }}>{icon}</Text>;
 }

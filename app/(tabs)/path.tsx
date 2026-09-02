@@ -46,7 +46,7 @@ export default function PathScreen() {
   if (!journey) {
     return (
       <Screen scroll>
-        <AppText variant="body">Yolculuk bulunamadi.</AppText>
+        <AppText variant="body">Yolculuk bulunamadı.</AppText>
       </Screen>
     );
   }
@@ -81,7 +81,7 @@ export default function PathScreen() {
         name={displayName}
         message={
           committed
-            ? 'Bugun bana uc kanit gonderdin. Adim adim, konustugumuz ihtimale yaklasiyoruz.'
+            ? 'Bugün bana üç kanıt gönderdin. Adım adım, konuştuğumuz ihtimale yaklaşıyoruz.'
             : morningMsg
         }
       />
@@ -93,22 +93,22 @@ export default function PathScreen() {
             {balance.stage}
           </AppText>
           <AppText variant="caption" color={colors.onSurfaceMuted}>
-            / {journey.stageTarget} ASAMA
+            / {journey.stageTarget} AŞAMA
           </AppText>
           <AppText variant="caption" color={palette.sunrise}>
             {balance.xp} XP
           </AppText>
         </ProgressRing>
         <View style={styles.streakRow}>
-          <StreakPill label="Bag Serisi" value={streaks.bond.count} />
-          <StreakPill label="Kanit Serisi" value={streaks.evidence.count} />
+          <StreakPill label="Bağ Serisi" value={streaks.bond.count} />
+          <StreakPill label="Kanıt Serisi" value={streaks.evidence.count} />
         </View>
       </Card>
 
       {/* Bugunun Uclusu ya da sabaha davet */}
       {committed && plan ? (
         <View style={styles.section}>
-          <AppText variant="heading">Bugunun Uclusu</AppText>
+          <AppText variant="heading">Bugünün Üçlüsü</AppText>
           {plan.goals.map((g) => (
             <GoalCard
               key={g.id}
@@ -119,7 +119,7 @@ export default function PathScreen() {
           ))}
           {allDone ? (
             <Button
-              label="Gunu kapat: Ayna zamani"
+              label="Günü kapat: Ayna zamanı"
               onPress={() => router.push('/evening')}
               fullWidth
             />
@@ -127,12 +127,12 @@ export default function PathScreen() {
         </View>
       ) : (
         <Card style={styles.section}>
-          <AppText variant="heading">Bugune baslayalim mi?</AppText>
+          <AppText variant="heading">Bugüne başlayalım mı?</AppText>
           <AppText variant="body" color={colors.onSurfaceMuted}>
-            Once 20-40 saniyelik kisa bir gelecek sahnesi, sonra bugunun uc kucuk hedefini
-            gelecekteki benligine gonderiyorsun.
+            Önce kısa bir gelecek sahnesi, sonra bugünün üç küçük hedefini gelecekteki
+            benliğine gönderiyorsun.
           </AppText>
-          <Button label="Sabah deneyimine basla" onPress={() => router.push('/morning')} fullWidth />
+          <Button label="Sabah deneyimine başla" onPress={() => router.push('/morning')} fullWidth />
         </Card>
       )}
 

@@ -251,7 +251,9 @@ export const useStore = create<StoreState>()(
       shrinkGoal: (date, goalId) =>
         set((s) => {
           const plan = s.plansByDate[date];
-          if (!plan) return {} as Partial<StoreState>;
+          if (!plan || plan.status === 'closed') return {} as Partial<StoreState>;
+          const target = plan.goals.find((goal) => goal.id === goalId);
+          if (!target || target.completed) return {} as Partial<StoreState>;
           const goals = plan.goals.map((g) =>
             g.id === goalId
               ? {
@@ -271,9 +273,12 @@ export const useStore = create<StoreState>()(
       editGoalTitle: (date, goalId, title) =>
         set((s) => {
           const plan = s.plansByDate[date];
-          if (!plan) return {} as Partial<StoreState>;
+          const normalizedTitle = title.trim();
+          if (!plan || plan.status !== 'draft' || !normalizedTitle) {
+            return {} as Partial<StoreState>;
+          }
           const goals = plan.goals.map((g) =>
-            g.id === goalId ? { ...g, title, edited: true } : g,
+            g.id === goalId ? { ...g, title: normalizedTitle, edited: true } : g,
           );
           return { plansByDate: { ...s.plansByDate, [date]: { ...plan, goals } } };
         }),
@@ -281,7 +286,19 @@ export const useStore = create<StoreState>()(
       commitPlan: (date) =>
         set((s) => {
           const plan = s.plansByDate[date];
-          if (!plan || plan.sentToFutureSelf) return {} as Partial<StoreState>;
+          const hasValidGoals =
+            plan?.goals.length === 3 &&
+            plan.goals.every((goal) => goal.safetyLabel === 'ok' && goal.title.trim().length > 0);
+          if (
+            !plan ||
+            plan.status !== 'draft' ||
+            plan.sentToFutureSelf ||
+            !plan.energy ||
+            !hasValidGoals ||
+            s.safety.suspended
+          ) {
+            return {} as Partial<StoreState>;
+          }
           const ledger = applyEntries(s.ledger, sendThreeEntries(date, nowIso()));
           const streaks = recordBond(s.streaks, date);
           const messages = pushMessage(s.messages, 'future', FUTURE_SELF.morning(s.profile.displayName || undefined));
@@ -300,7 +317,9 @@ export const useStore = create<StoreState>()(
         set((s) => {
           if (s.safety.suspended) return {} as Partial<StoreState>; // kriz aninda oyun/puan durur
           const plan = s.plansByDate[date];
-          if (!plan) return {} as Partial<StoreState>;
+          if (!plan || plan.status !== 'committed' || !plan.sentToFutureSelf) {
+            return {} as Partial<StoreState>;
+          }
           const goal = plan.goals.find((g) => g.id === goalId);
           if (!goal || goal.completed) return {} as Partial<StoreState>;
 
@@ -332,7 +351,9 @@ export const useStore = create<StoreState>()(
       saveReflection: (date, reflection) =>
         set((s) => {
           const plan = s.plansByDate[date];
-          if (!plan) return {} as Partial<StoreState>;
+          if (!plan || plan.status !== 'committed' || !plan.sentToFutureSelf) {
+            return {} as Partial<StoreState>;
+          }
           return {
             plansByDate: {
               ...s.plansByDate,
@@ -378,7 +399,7 @@ export const useStore = create<StoreState>()(
           messages = pushMessage(
             messages,
             'future',
-            'Seni duydum. Bunu bugunun uc kucuk adimina cevirelim mi? Once en kucugunu secelim.',
+            'Seni duydum. Bunu bugünün üç küçük adımına çevirelim mi? Önce en küçüğünü seçelim.',
           );
           return { messages };
         });
@@ -390,6 +411,7 @@ export const useStore = create<StoreState>()(
     }),
     {
       name: 'futureme-store-v1',
+      version: 1,
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (s) => ({
         onboardingComplete: s.onboardingComplete,
