@@ -12,10 +12,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.futureme.app"
+      "bundleIdentifier": "app.futureme.com"
     },
     "android": {
-      "package": "com.futureme.app",
+      "package": "app.futureme.com",
       "adaptiveIcon": {
         "foregroundImage": "./assets/futureme-icon.png",
         "backgroundColor": "#17143D"
